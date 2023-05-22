@@ -46,7 +46,7 @@ class _MyAccountState extends State<MyAccount> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       CustomCircularImage(
-                        imageUrl: userInfo.profileImage.toString(),
+                        imageUrl: userData.profileImage.toString(),
                         fileType: CustomFileType.network,
                         fit: BoxFit.cover,
                         height: 30,
@@ -54,7 +54,7 @@ class _MyAccountState extends State<MyAccount> {
                       ),
                       SizedBox(width: 8),
                       Text(
-                        "Hello, ${userInfo.fName} ${userInfo.lName}",
+                        "Hello, ${userData.fName} ${userData.lName}",
                         style: TextStyle(
                             fontSize: 13,
                             fontFamily: "nunito",
@@ -85,7 +85,7 @@ class _MyAccountState extends State<MyAccount> {
             Row(
               children: [
                 CustomCircularImage(
-                  imageUrl: userInfo.profileImage.toString(),
+                  imageUrl: userData.profileImage.toString(),
                   fileType: CustomFileType.network,
                   fit: BoxFit.cover,
                   height: 80,
@@ -95,12 +95,12 @@ class _MyAccountState extends State<MyAccount> {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text("${userInfo.fName} ${userInfo.lName}", style: MyStyle.black50015),
+                    Text("${userData.fName} ${userData.lName}", style: MyStyle.black50015),
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Icon(Icons.location_on_rounded, size: size_height*0.02,),
-                        Text("${userInfo.address??'-'}", style: MyStyle.grey50012),
+                        Text("${userData.address??'-'}", style: MyStyle.grey50012),
                       ],
                     ),
                   ],

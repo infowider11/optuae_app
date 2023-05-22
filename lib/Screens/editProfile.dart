@@ -40,11 +40,11 @@ class _EditProfileState extends State<EditProfile> {
   @override
   void initState() {
     // TODO: implement initState
-    email.text=userInfo.email.toString();
-    firstName.text=userInfo.fName.toString();
-    lastName.text=userInfo.lName.toString();
-    mobile.text=userInfo.phone.toString();
-    address.text=userInfo.address??'';
+    email.text=userData.email.toString();
+    firstName.text=userData.fName.toString();
+    lastName.text=userData.lName.toString();
+    mobile.text=userData.phone.toString();
+    address.text=userData.address??'';
     super.initState();
   }
 
@@ -134,7 +134,7 @@ class _EditProfileState extends State<EditProfile> {
                               selectedimage!=null?
                               Image.file(height: 120.0, width: 120.0, File(selectedimage!.path,), fit: BoxFit.cover,) :
                               CustomCircularImage(
-                                imageUrl: userInfo.profileImage.toString(),
+                                imageUrl: userData.profileImage.toString(),
                                 fit: BoxFit.cover,
                                 height: 120,
                                 width: 120,
@@ -226,7 +226,7 @@ class _EditProfileState extends State<EditProfile> {
                   ){
                     Map<String,dynamic> files = {};
                     Map<String,dynamic> data = {
-                      'id':userInfo.id.toString(),
+                      'id':userData.id.toString(),
                       'f_name':firstName.text,
                       'l_name':lastName.text,
                       'phone':mobile.text,
@@ -240,7 +240,7 @@ class _EditProfileState extends State<EditProfile> {
                     loadingHide(context);
                     print('update profile $res');
                     if(res['status'].toString()=='1'){
-                      userInfo = userData.fromJson(res['data']);
+                      userData = UserModal.fromJson(res['data']);
                       updateUserDetails(res['data']);
                       showSnackbar('Profile successfully updated.');
                     }

@@ -79,14 +79,17 @@ class RoundEdgedButton extends StatelessWidget {
                   Image.asset(icon!),
                 if(icon!=null)
                   SizedBox(width: 10,),
-                Text(
-                  text,
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                      color:textColor?? MyColors.black,
-                      fontSize: fontSize??20,
-                      fontFamily: fontfamily,
-                      fontWeight: fontWeight
+                Flexible(
+                  child: Text(
+                    text,
+                    textAlign: TextAlign.center,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                        color:textColor?? MyColors.black,
+                        fontSize: fontSize??20,
+                        fontFamily: fontfamily,
+                        fontWeight: fontWeight,
+                    ),
                   ),
                 ),
 

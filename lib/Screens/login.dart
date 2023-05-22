@@ -119,7 +119,7 @@ class _loginState extends State<login> {
                                 print('login---- $res');
                                 if(res['status'].toString()=='1'){
                                   updateUserDetails(res['data']);
-                                  userInfo = userData.fromJson(res['data']);
+                                  userData = UserModal.fromJson(res['data']);
                                   pushAndRemoveUntil(context: context, screen: BottomBar());
                                 } else {
                                   showSnackbar(res['message']);

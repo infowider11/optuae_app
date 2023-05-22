@@ -1,0 +1,23 @@
+import 'package:flutter/cupertino.dart';
+
+const SizedBox hSizedBox05 = SizedBox(width: 5,);
+const SizedBox hSizedBox = SizedBox(width: 10,);
+const SizedBox hSizedBox2 = SizedBox(width: 20,);
+const SizedBox hSizedBox4 = SizedBox(width: 40,);
+const SizedBox hSizedBox6 = SizedBox(width: 60,);
+const SizedBox hSizedBox8 = SizedBox(width: 80,);
+
+const SizedBox vSizedBox05 = SizedBox(height: 5,);
+const SizedBox vSizedBox = SizedBox(height: 10,);
+const SizedBox vSizedBox2 = SizedBox(height:20,);
+const SizedBox vSizedBox4 = SizedBox(height: 30,);
+const SizedBox vSizedBox6 = SizedBox(height: 60,);
+const SizedBox vSizedBox8 = SizedBox(height: 80,);
+
+
+const SizedBox sizedBox05 = SizedBox(height: 5,width: 5,);
+const SizedBox sizedBox = SizedBox(height: 10,width: 10,);
+const SizedBox sizedBox2 = SizedBox(height:20,width: 20,);
+const SizedBox sizedBox4 = SizedBox(height: 30,width: 40,);
+const SizedBox sizedBox6 = SizedBox(height: 60,width: 60,);
+const SizedBox sizedBox8 = SizedBox(height: 80,width: 80,);

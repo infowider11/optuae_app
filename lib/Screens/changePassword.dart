@@ -101,7 +101,7 @@ class _changePasswordState extends State<changePassword> {
                               context) ==
                           null) {
                     Map<String,dynamic> data = {
-                      'id':userInfo.id.toString(),
+                      'id':userData.id.toString(),
                       'current_password':password.text,
                       'new_password':NewPassword.text,
                       'confirm_password':ConfirmPassword.text,

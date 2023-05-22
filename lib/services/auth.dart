@@ -20,7 +20,7 @@ late Timer? globel_timer;
 List content = [];
 
 void updateUserDetails(details) async{
-  userInfo = userData.fromJson(details);
+  userData = UserModal.fromJson(details);
   SharedPreferences shared_User = await SharedPreferences.getInstance();
   String user = jsonEncode(details);
 

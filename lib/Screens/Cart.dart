@@ -51,7 +51,7 @@ class _CartState extends State<Cart> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       CustomCircularImage(
-                        imageUrl: userInfo.profileImage.toString(),
+                        imageUrl: userData.profileImage.toString(),
                         fileType: CustomFileType.network,
                         fit: BoxFit.cover,
                         height: 30,
@@ -59,7 +59,7 @@ class _CartState extends State<Cart> {
                       ),
                       SizedBox(width: 8),
                       Text(
-                        "Hello, ${userInfo.fName} ${userInfo.lName}",
+                        "Hello, ${userData.fName} ${userData.lName}",
                         style: TextStyle(
                             fontSize: 13,
                             fontFamily: "nunito",

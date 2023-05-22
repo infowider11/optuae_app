@@ -26,6 +26,8 @@ class DropDown extends StatefulWidget {
   TextStyle? textStylelist;
   double? boxBottomPadding;
   double? boxTopPadding;
+  String? selectedValue;
+  final Function(dynamic)? onChanged;
 
   DropDown({
     Key? key,
@@ -53,6 +55,8 @@ class DropDown extends StatefulWidget {
     this.buttonwidth,
     this.buttonheight,
     this.dropdownwidth,
+    this.selectedValue,
+    this.onChanged,
 
   }) : super(key: key);
 
@@ -62,7 +66,7 @@ class DropDown extends StatefulWidget {
 
 class _DropDownState extends State<DropDown> {
 
-  String? selectedValue;
+  // String? selectedValue;
 
   @override
   Widget build(BuildContext context) {
@@ -101,13 +105,14 @@ class _DropDownState extends State<DropDown> {
                         ),
                       ))
                           .toList(),
-                  value: selectedValue,
-                  onChanged: (value) {
-                    setState(() {
-                      selectedValue = value ;
-                      print(selectedValue);
-                    });
-                  },
+                  value: widget.selectedValue,
+                  onChanged: widget.onChanged,
+                  // onChanged: (value) {
+                  //   setState(() {
+                  //     widget.selectedValue = value ;
+                  //     print(widget.selectedValue);
+                  //   });
+                  // },
                   iconSize:25,
                   iconEnabledColor: MyColors.white,
                   iconDisabledColor: Colors.grey,

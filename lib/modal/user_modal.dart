@@ -1,4 +1,4 @@
-class userData {
+class UserModal {
   int? id;
   String? fName;
   String? lName;
@@ -10,7 +10,7 @@ class userData {
   String? createdAt;
   String? updatedAt;
 
-  userData(
+  UserModal(
       {this.id,
         this.fName,
         this.lName,
@@ -22,7 +22,7 @@ class userData {
         this.createdAt,
         this.updatedAt});
 
-  userData.fromJson(Map<String, dynamic> json) {
+  UserModal.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     fName = json['f_name'];
     lName = json['l_name'];
