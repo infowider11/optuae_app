@@ -8,6 +8,7 @@ import 'package:optuae/constants/global_data.dart';
 import 'package:optuae/services/webservices.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:async';
+import '../Screens/notification.dart';
 import 'api_urls.dart';
 import 'navigation_functions.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -145,6 +146,9 @@ Future<List> get_cart() async{
 
 notificationHandling(context,Map? data) {
   print('push data ----- ${data}');
+  push(context: context, screen: notification(
+    noti_id: data!['notification_id'].toString(),
+  ));
 }
 
 launchURL(url,bool fb) async{

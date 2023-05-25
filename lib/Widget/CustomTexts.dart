@@ -117,7 +117,7 @@ class ParagraphText extends StatelessWidget {
   final String? fontFamily;
   final TextAlign? textAlign;
   final bool underlined;
-  const ParagraphText( this.text,{
+   ParagraphText( this.text,{
     Key? key,
     // required this.text,
     this.color,

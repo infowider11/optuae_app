@@ -17,12 +17,14 @@ class ProductModal{
   String photo;
   String newUsed;
   String stockStatus;
+  // String? qty;
   List images;
 
   ProductModal({
     required this.id,
     required this.name,
     required this.brand,
+    // this.qty='1',
     required this.model,
     required this.year,
     required this.body,

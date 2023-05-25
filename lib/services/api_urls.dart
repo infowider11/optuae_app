@@ -61,7 +61,7 @@ class ApiUrls {
   static const String get_subcategories = baseUrl + 'get-sub-category?type=';
   static const String search_employee = baseUrl + 'search-employee';
   static const String showdescription = baseUrl + 'show-description?type=';
-  static const String booking = baseUrl + 'booking';
+  static const String booking = baseUrl + 'make-booking';
   static const String alleventlist = baseUrl + 'employee-all-event?emp_id=';
   static const String eventlist = baseUrl + 'event-list?emp_id=';
   static const String addevent = baseUrl + 'add-event';
@@ -93,4 +93,5 @@ class ApiUrls {
   static const String service_detail = baseUrl + 'special_category_detail';
   static const String specialbooking = baseUrl + 'specialbooking';
   static const String getspecialCategory = baseUrl + 'get_special_category';
+  static const String getBookinglist = baseUrl + 'get-booking-list?user_id=';
 }

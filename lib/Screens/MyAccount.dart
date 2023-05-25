@@ -6,12 +6,14 @@ import 'package:optuae/Screens/terms_condition.dart';
 import 'package:optuae/services/auth.dart';
 import 'package:optuae/services/navigation_functions.dart';
 
+import '../Widget/notiUnread.dart';
 import '../constants/colors.dart';
 import '../constants/global_data.dart';
 import '../constants/images_url.dart';
 import '../services/custom_circular_image.dart';
 import 'changePassword.dart';
 import 'editProfile.dart';
+import 'notification.dart';
 import 'orderHistory.dart';
 
 class MyAccount extends StatefulWidget {
@@ -69,9 +71,21 @@ class _MyAccountState extends State<MyAccount> {
           ),
         ),
         actions: [
-          Padding(
-            padding: const EdgeInsets.only(right: 20, top: 15, bottom: 15),
-            child: Image.asset(MyImages.bell),
+          InkWell(
+            onTap: () {
+              push(context: context, screen: notification());
+            },
+            child: Padding(
+              padding: const EdgeInsets.only(right: 20, top: 15, bottom: 15),
+              child: Stack(
+                children: [
+                  Image.asset(MyImages.bell),
+                  Positioned(
+                    child: notiunreadCircle(),
+                  ),
+                ],
+              ),
+            ),
           )
         ],
       ),
@@ -211,7 +225,7 @@ class _MyAccountState extends State<MyAccount> {
                             actions: [
                               TextButton(
                                   onPressed: () async{
-                                    await logout(true,isDevice: false);
+                                    await logout(true,isDevice: true);
                                     pushAndRemoveUntil(context: context, screen: login());
                                   },
                                   child: Text('Yes')

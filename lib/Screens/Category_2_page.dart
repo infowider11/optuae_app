@@ -55,13 +55,21 @@ class _Category_2_pageState extends State<Category_2_page> {
 
   // Map<String, List<ProductModal>> tempProducts = {};
 
+  sorting(bool SortbyAsc) {
+
+}
+
   updateHomePage(String keyword,
       {String? brand,
       bool showInstockOnly = false,
-      bool showOutOfStockOnly = false}) async {
+      bool showOutOfStockOnly = false,
+      bool sortByAsc = false,
+      bool sortByDesc = false}) async {
     print('Inside Update Home Page with $productsByName');
+    print('Inside categoryProducts $categoryProducts');
     categoryProducts.clear();
     loadNotifier.value = true;
+
     if (brand != null) {
       if (productsByName['${widget.categoryNameKey}'] != null) {
         for (int i = 0;
@@ -79,9 +87,22 @@ class _Category_2_pageState extends State<Category_2_page> {
           } else {
 // otherCondition = true;
           }
-          if (productsByName['${widget.categoryNameKey}']![i]
-                  .name
-                  .contains(keyword) &&
+          if ((productsByName['${widget.categoryNameKey}']![i]
+                      .name
+                      .toLowerCase()
+                      .contains(keyword.toLowerCase()) ||
+                  productsByName['${widget.categoryNameKey}']![i]
+                      .brand
+                      .toLowerCase()
+                      .contains(keyword.toLowerCase()) ||
+                  productsByName['${widget.categoryNameKey}']![i]
+                      .model
+                      .toLowerCase()
+                      .contains(keyword.toLowerCase()) ||
+                  productsByName['${widget.categoryNameKey}']![i]
+                      .partNumber
+                      .toLowerCase()
+                      .contains(keyword.toLowerCase())) &&
               productsByName['${widget.categoryNameKey}']![i].brand == brand &&
               otherCondition) {
             categoryProducts
@@ -106,17 +127,96 @@ class _Category_2_pageState extends State<Category_2_page> {
           } else {
 // otherCondition = true;
           }
-          if (productsByName['${widget.categoryNameKey}']![i]
-                  .name
-                  .contains(keyword) &&
+          if ((productsByName['${widget.categoryNameKey}']![i]
+                      .name
+                      .toLowerCase()
+                      .contains(keyword.toLowerCase()) ||
+                  productsByName['${widget.categoryNameKey}']![i]
+                      .brand
+                      .toLowerCase()
+                      .contains(keyword.toLowerCase()) ||
+                  productsByName['${widget.categoryNameKey}']![i]
+                      .model
+                      .toLowerCase()
+                      .contains(keyword.toLowerCase()) ||
+                  productsByName['${widget.categoryNameKey}']![i]
+                      .partNumber
+                      .toLowerCase()
+                      .contains(keyword.toLowerCase())) &&
               otherCondition) {
             categoryProducts
                 .add(productsByName['${widget.categoryNameKey}']![i]);
+
           } else {}
         }
       }
     }
-
+    if (sortByAsc || sortByDesc) {
+      // Future.delayed(Duration(milliseconds: 100), () {
+        List<ProductModal> fillarr = [];
+        int m=0;
+        int n=0;
+        for (int i = 0;
+            i < productsByName['${widget.categoryNameKey}']!.length;
+            i++) {
+          bool otherCondition = true;
+          if (showOutOfStockOnly) {
+            otherCondition =
+                productsByName['${widget.categoryNameKey}']![i].stockStatus !=
+                    'В наличии';
+          } else if (showInstockOnly) {
+            otherCondition =
+                productsByName['${widget.categoryNameKey}']![i].stockStatus ==
+                    'В наличии';
+          } else {
+// otherCondition = true;
+          }
+          if ((productsByName['${widget.categoryNameKey}']![i]
+                      .name
+                      .toLowerCase()
+                      .contains(keyword.toLowerCase()) ||
+                  productsByName['${widget.categoryNameKey}']![i]
+                      .brand
+                      .toLowerCase()
+                      .contains(keyword.toLowerCase()) ||
+                  productsByName['${widget.categoryNameKey}']![i]
+                      .model
+                      .toLowerCase()
+                      .contains(keyword.toLowerCase()) ||
+                  productsByName['${widget.categoryNameKey}']![i]
+                      .partNumber
+                      .toLowerCase()
+                      .contains(keyword.toLowerCase())) &&
+              otherCondition) {
+            fillarr.add(productsByName['${widget.categoryNameKey}']![i]);
+            m++;
+          } else {
+            n++;
+          }
+        }
+        print('keyword------------    $keyword');
+        print('soring...if---${m} ----- else---${n}.........${fillarr.length}');
+        List<ProductModal> temp = [];
+        temp =
+            fillarr; //List.from(productsByName['${widget.categoryNameKey}'] ?? []);
+            sortByDesc?temp.sort((b, a) => int.parse(a.price.toString())
+    .compareTo(int.parse(b.price.toString()))):temp.sort((a, b) => int.parse(a.price.toString())
+            .compareTo(int.parse(b.price.toString())));
+        categoryProducts = temp;
+        setState(() {});
+      // });
+    }
+    // if (sortByDesc) {
+    //   print('soring............');
+    //   Future.delayed(Duration(milliseconds: 100), () {
+    //     List<ProductModal> arr = [];
+    //     arr = List.from(productsByName['${widget.categoryNameKey}'] ?? []);
+    //     arr.sort((a, b) => int.parse(b.price.toString())
+    //         .compareTo(int.parse(a.price.toString())));
+    //     categoryProducts = arr;
+    //     setState(() {});
+    //   });
+    // }
     loadNotifier.value = false;
   }
 
@@ -441,11 +541,21 @@ class _Category_2_pageState extends State<Category_2_page> {
                   ),
                   DropDown(
                     label: 'Sort By',
-                    buttonwidth: size_width * 0.3,
+                    buttonwidth: size_width * 0.4,
                     buttonheight: size_height * 0.035,
                     isRight: false,
                     selectedValue: selectedValue,
                     items: sortByList,
+                    onChanged: (value) {
+                      print('sort by-----$value');
+                      selectedValue = value;
+                      setState(() {});
+                      if (value == 'Ascending Price') {
+                        updateHomePage(searchController.text, sortByAsc: true);
+                      } else {
+                        updateHomePage(searchController.text, sortByDesc: true);
+                      }
+                    },
                   )
                 ],
               ),

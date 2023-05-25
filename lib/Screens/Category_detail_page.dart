@@ -11,6 +11,8 @@ import 'package:optuae/modal/product_modal.dart';
 import '../constants/Textstyles.dart';
 import '../Widget/appbar.dart';
 import '../Widget/custom_text_field.dart';
+import '../modal/cart_modal.dart';
+import '../services/cart_manage.dart';
 import 'Checkout.dart';
 
 class Category_detail_page extends StatelessWidget {
@@ -209,6 +211,17 @@ class Category_detail_page extends StatelessWidget {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
+                              Text("Part Number", style: MyStyle.black60015,),
+                              Text("${productDetails.partNumber}", style: MyStyle.lb40015,),
+                            ],
+                          ),
+                          SizedBox(height: size_height * 0.005),
+                          Container(height: size_height*0.001, width: size_width, color: MyColors.black.withOpacity(0.15),),
+                          SizedBox(height: size_height * 0.01),
+
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
                               Text("Brand", style: MyStyle.black60015,),
                               Text("${productDetails.brand}", style: MyStyle.lb40015,),
                             ],
@@ -256,9 +269,32 @@ class Category_detail_page extends StatelessWidget {
               ]),
         ),
       ),
-      bottomNavigationBar: GestureDetector(
-        onTap: (){
-          showSnackbar('Coming soon');
+      bottomNavigationBar:productDetails.stockStatus=='В наличии'?
+          GestureDetector(
+        onTap: ()async{
+          print('product item   ${productDetails}');
+           Cartmanage.addItem(CartItem(
+             color: productDetails.color,
+             body: productDetails.body,
+             brand: productDetails.brand,
+             comment: productDetails.comment,
+             engine: productDetails.engine,
+             frontRear: productDetails.frontRear,
+             images: productDetails.images,
+             lionRight: productDetails.lionRight,
+             manufacturer: productDetails.manufacturer,
+             model: productDetails.model,
+             newUsed: productDetails.newUsed,
+             partNumber: productDetails.partNumber,
+             stockStatus: productDetails.stockStatus,
+             topBottom: productDetails.topBottom,
+             year: productDetails.year,
+             id:productDetails.id,
+             name:productDetails.name,
+             price:double.parse(productDetails.price.toString()),
+             photo:productDetails.images.length==0?productDetails.photo:productDetails.images[0],
+             qty:1,
+           ));
           push(context: context, screen: Cart(isbottombar: true,));
         },
         child: Container(
@@ -273,6 +309,19 @@ class Category_detail_page extends StatelessWidget {
               Text('Add To Cart', style: MyStyle.black60020,)
             ],
           ),
+        ),
+      )
+          :Container(
+        height: size_height*0.07,
+        alignment: Alignment.center,
+        color: MyColors.greyText,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Image.asset(MyImages.bag, height: size_height*0.03,),
+            SizedBox(width: size_width*0.02),
+            Text('Sold Out', style: MyStyle.black60020,)
+          ],
         ),
       ),
     );

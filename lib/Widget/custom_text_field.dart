@@ -133,7 +133,7 @@ class CustomTextField extends StatelessWidget {
                     decoration: InputDecoration(
                       // suffix: suffix,
                       prefixIcon: preffix,
-                      contentPadding: EdgeInsets.fromLTRB(10, contentTopPadding??0, 0, contentBottomPadding?? 0),
+                      contentPadding: EdgeInsets.fromLTRB(10, contentTopPadding, 0, contentBottomPadding),
                       fillColor:  headingText!=null? Colors.transparent: bgColor,
                       filled: true,
                       // isDense: true,

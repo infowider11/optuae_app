@@ -13,6 +13,7 @@ import 'package:optuae/services/Customloader.dart';
 import 'package:optuae/services/custom_circular_image.dart';
 import 'package:windows1251/windows1251.dart';
 
+import '../Widget/notiUnread.dart';
 import '../Widget/product_card.dart';
 import '../constants/Textstyles.dart';
 import '../constants/colors.dart';
@@ -22,9 +23,10 @@ import '../constants/images_url.dart';
 import '../constants/sized_box.dart';
 import '../modal/product_modal.dart';
 import '../services/auth.dart';
+import 'notification.dart';
 
 class Home extends StatefulWidget {
-  const Home({Key? key}) : super(key: key);
+  const Home({Key? key}) : super(key:key);
 
   @override
   State<Home> createState() => _HomeState();
@@ -149,11 +151,9 @@ class _HomeState extends State<Home> {
             )
         );
       }
-
       children.add(SizedBox(
         height: size_height * 0.02,
       ),);
-
     });
 
     print('the ddd ${DateTime.now().millisecondsSinceEpoch}');
@@ -189,8 +189,6 @@ class _HomeState extends State<Home> {
     tempProducts.clear();
     loadNotifier.value = true;
     if(brand!=null){
-
-
       productsByName.forEach((key, value) {
         value.forEach((element) {
           // log('the data is ${element.toJson()}');
@@ -205,7 +203,10 @@ class _HomeState extends State<Home> {
           }else{
             // otherCondition = true;
           }
-          if(value[i].name.contains(keyword) && value[i].brand==brand && otherCondition){
+          if((value[i].name.toLowerCase().contains(keyword.toLowerCase())||
+              value[i].brand.toLowerCase().contains(keyword.toLowerCase()) || value[i].partNumber.toLowerCase().contains(keyword.toLowerCase())
+              || value[i].model.toLowerCase().contains(keyword.toLowerCase())) && value[i].brand==brand && otherCondition)
+          {
             if(tempProducts[key]==null){
               tempProducts[key]=[value[i]];
             }else{
@@ -220,7 +221,8 @@ class _HomeState extends State<Home> {
         }
 
       });
-    }else{
+    }
+    else{
       productsByName.forEach((key, value) {
         value.forEach((element) {
           // log('the data is ${element.toJson()}');
@@ -235,7 +237,9 @@ class _HomeState extends State<Home> {
           }else{
             // otherCondition = true;
           }
-          if(value[i].name.contains(keyword) && otherCondition){
+          if((value[i].name.toLowerCase().contains(keyword.toLowerCase())||
+              value[i].brand.toLowerCase().contains(keyword.toLowerCase()) || value[i].partNumber.toLowerCase().contains(keyword.toLowerCase())
+          || value[i].model.toLowerCase().contains(keyword.toLowerCase())) && otherCondition){
             if(tempProducts[key]==null){
               tempProducts[key]=[value[i]];
             }else{
@@ -316,9 +320,21 @@ class _HomeState extends State<Home> {
           ),
         ),
         actions: [
-          Padding(
-            padding: const EdgeInsets.only(right: 20, top: 15, bottom: 15),
-            child: Image.asset(MyImages.bell),
+          InkWell(
+            onTap: () {
+              push(context: context, screen: notification());
+            },
+            child: Padding(
+              padding: const EdgeInsets.only(right: 20, top: 15, bottom: 15),
+              child: Stack(
+                children: [
+                  Image.asset(MyImages.bell),
+                  Positioned(
+                      child: notiunreadCircle(),
+                  ),
+                ],
+              ),
+            ),
           )
         ],
       ),
@@ -359,7 +375,7 @@ class _HomeState extends State<Home> {
                       preffix: Icon(Icons.search),
                       onChanged: (val){
                         print(val);
-                       searchOnChanged(val.length);
+                        searchOnChanged(val.length);
                       },
                       hintcolor: MyColors.lightblack.withOpacity(0.45),
                     ),
