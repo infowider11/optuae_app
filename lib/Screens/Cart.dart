@@ -16,6 +16,7 @@ import '../modal/cart_modal.dart';
 import '../services/cart_manage.dart';
 import '../services/custom_circular_image.dart';
 import 'Checkout.dart';
+import 'NeedDelivery.dart';
 import 'notification.dart';
 
 class Cart extends StatefulWidget {
@@ -312,7 +313,8 @@ class _CartState extends State<Cart> {
           text: 'Checkout',
           height: size_height*0.07,
           onTap: (){
-            push(context: context, screen: Checkout());
+            // push(context: context, screen: Checkout());
+            push(context: context, screen: NeedDelivery());
           },
         ),
       ):null,

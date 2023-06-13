@@ -75,58 +75,59 @@ class _NeedDeliveryState extends State<NeedDelivery> {
               Text("Need Delivery", style: MyStyle.black60030,),
               Text("From stock", style: MyStyle.lb40016,),
               SizedBox(height: size_height * 0.02,),
-              CustomTextField(
-                controller: firstName,
-                hintText: 'First Name',
-                contentBottomPadding: 7,
-                bgColor: MyColors.white,
-                hintcolor: MyColors.lightblack.withOpacity(0.45),
-              ),
-              SizedBox(
-                height: size_height * 0.01,
-              ),
-              CustomTextField(
-                controller: lastName,
-                hintText: 'Last Name',
-                contentBottomPadding: 7,
-                bgColor: MyColors.white,
-                hintcolor: MyColors.lightblack.withOpacity(0.45),
-              ),
-              SizedBox(
-                height: size_height * 0.01,
-              ),
-              CustomTextField(
-                controller: city,
-                hintText: 'City',
-                contentBottomPadding: 7,
-                bgColor: MyColors.white,
-                hintcolor: MyColors.lightblack.withOpacity(0.45),
-              ),
-              SizedBox(
-                height: size_height * 0.01,
-              ),
-              CustomTextField(
-                controller: email,
-                hintText: 'Email Address',
-                bgColor: MyColors.white,
-                contentBottomPadding: 7,
-                keyboardType: TextInputType.emailAddress,
-                hintcolor: MyColors.lightblack.withOpacity(0.45),
-              ),
-              SizedBox(
-                height: size_height * 0.01,
-              ),
-              CustomTextField(
-                controller: mobile,
-                hintText: 'Mobile Number',
-                bgColor: MyColors.white,
-                contentBottomPadding: 7,
-                keyboardType: TextInputType.number,
-                hintcolor: MyColors.lightblack.withOpacity(0.45),
-              ),
-              SizedBox(
-                height: size_height * 0.01,
-              ),
+
+              // CustomTextField(
+              //   controller: firstName,
+              //   hintText: 'First Name',
+              //   contentBottomPadding: 7,
+              //   bgColor: MyColors.white,
+              //   hintcolor: MyColors.lightblack.withOpacity(0.45),
+              // ),
+              // SizedBox(
+              //   height: size_height * 0.01,
+              // ),
+              // CustomTextField(
+              //   controller: lastName,
+              //   hintText: 'Last Name',
+              //   contentBottomPadding: 7,
+              //   bgColor: MyColors.white,
+              //   hintcolor: MyColors.lightblack.withOpacity(0.45),
+              // ),
+              // SizedBox(
+              //   height: size_height * 0.01,
+              // ),
+              // CustomTextField(
+              //   controller: city,
+              //   hintText: 'City',
+              //   contentBottomPadding: 7,
+              //   bgColor: MyColors.white,
+              //   hintcolor: MyColors.lightblack.withOpacity(0.45),
+              // ),
+              // SizedBox(
+              //   height: size_height * 0.01,
+              // ),
+              // CustomTextField(
+              //   controller: email,
+              //   hintText: 'Email Address',
+              //   bgColor: MyColors.white,
+              //   contentBottomPadding: 7,
+              //   keyboardType: TextInputType.emailAddress,
+              //   hintcolor: MyColors.lightblack.withOpacity(0.45),
+              // ),
+              // SizedBox(
+              //   height: size_height * 0.01,
+              // ),
+              // CustomTextField(
+              //   controller: mobile,
+              //   hintText: 'Mobile Number',
+              //   bgColor: MyColors.white,
+              //   contentBottomPadding: 7,
+              //   keyboardType: TextInputType.number,
+              //   hintcolor: MyColors.lightblack.withOpacity(0.45),
+              // ),
+              // SizedBox(
+              //   height: size_height * 0.01,
+              // ),
 
 
               CustomTextField(

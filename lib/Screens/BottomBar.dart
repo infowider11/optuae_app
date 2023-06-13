@@ -16,6 +16,7 @@ import '../services/onesignal.dart';
 import '../services/webservices.dart';
 import 'Cart.dart';
 import 'Home.dart';
+import 'new_home_page.dart';
 
 class BottomBar extends StatefulWidget {
   const BottomBar({Key? key}) : super(key: key);
@@ -63,7 +64,7 @@ class _BottomBarState extends State<BottomBar> {
     return Scaffold(
       body:  Center(
         child: [
-          Home(),
+          NewHomePage(),
           Category(),
           MyAccount(),
           Cart(isbottombar: false,),

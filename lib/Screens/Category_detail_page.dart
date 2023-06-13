@@ -1,3 +1,4 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:optuae/Widget/showSnackbar.dart';
@@ -8,6 +9,7 @@ import 'package:optuae/Functions/navigation_functions.dart';
 import 'package:optuae/Screens/Cart.dart';
 import 'package:optuae/Widget/round_edged_button.dart';
 import 'package:optuae/modal/product_modal.dart';
+import '../Widget/imageZoom.dart';
 import '../constants/Textstyles.dart';
 import '../Widget/appbar.dart';
 import '../Widget/custom_text_field.dart';
@@ -15,17 +17,18 @@ import '../modal/cart_modal.dart';
 import '../services/cart_manage.dart';
 import 'Checkout.dart';
 
-class Category_detail_page extends StatelessWidget {
+class Category_detail_page extends StatefulWidget {
   final ProductModal productDetails;
   const Category_detail_page({Key? key, required this.productDetails}) : super(key: key);
 
-  // List car = [
-  //   {"img": MyImages.carDetail1},
-  //   {"img": MyImages.carDetail2},
-  //   {"img": MyImages.carDetail3},
-  //   {"img": MyImages.carDetail4},
-  // ];
+  @override
+  State<Category_detail_page> createState() => _Category_detail_pageState();
+}
 
+class _Category_detail_pageState extends State<Category_detail_page> {
+  final CarouselController carouselcontroller = CarouselController();
+
+  // List car = [
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -46,33 +49,74 @@ class Category_detail_page extends StatelessWidget {
                   height: size_height * 0.01,
                 ),
                 Text(
-                  '${productDetails.name} ${productDetails.brand} ${productDetails.model}',
+                  '${widget.productDetails.name} ${widget.productDetails.brand} ${widget.productDetails.model}',
                   // "Nose cut BMW 1-Series F20",
                   style: MyStyle.black70022,
                 ),
                 SizedBox(
                   height: size_height * 0.01,
                 ),
-                Container(
-                  width: size_width,
-                  height: size_height / 5,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      image: DecorationImage(
-                          image: NetworkImage(productDetails.images[0]), fit: BoxFit.cover)),
+
+                CarouselSlider(
+                   carouselController: carouselcontroller,
+                  options: CarouselOptions(
+                      height: size_height / 5,
+                      initialPage: 0,
+                      // aspectRatio: ,
+                      pageSnapping: false,
+                      autoPlay: true,
+                    // aspectRatio: 1/1,
+                  ),
+                  items: widget.productDetails.images.map((i) {
+                    return Builder(
+                      builder: (BuildContext context) {
+                        return InkWell(
+                          onTap: (){
+                            push(context: context, screen: ImageZoomerScreen(imageUrl: i,));
+                          },
+                          child: Container(
+                              width: MediaQuery.of(context).size.width,
+                              margin: EdgeInsets.symmetric(horizontal: 5.0),
+                              decoration: BoxDecoration(
+                                  color: Colors.amber,
+                                  borderRadius: BorderRadius.circular(10),
+                                  image: DecorationImage(
+                                      image: NetworkImage(i), fit: BoxFit.cover),
+                              ),
+                              child: null,
+                          ),
+                        );
+                      },
+                    );
+                  }).toList(),
                 ),
+
+                // Container(
+                //   width: size_width,
+                //   height: size_height / 5,
+                //   decoration: BoxDecoration(
+                //       borderRadius: BorderRadius.circular(10),
+                //       image: DecorationImage(
+                //           image: NetworkImage(productDetails.images[0]), fit: BoxFit.cover)),
+                // ),
                 SizedBox(height: size_height * 0.01,),
 
                 SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
                   child: Row(
                     children: [
-                      for(int i=0; i<productDetails.images.length; i++)
-                      Padding(
-                        padding:  EdgeInsets.only(right: size_width*0.02),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(10),
-                          child: Image.network(productDetails.images[i], height: size_height*0.05,),
+                      for(int i=0; i<widget.productDetails.images.length; i++)
+                      InkWell(
+                        onTap: (){
+                          carouselcontroller.jumpToPage(i);
+                          // push(context: context, screen: ImageZoomerScreen(imageUrl: widget.productDetails.images[i],));
+                        },
+                        child: Padding(
+                          padding:  EdgeInsets.only(right: size_width*0.02),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(10),
+                            child: Image.network(widget.productDetails.images[i], height: size_height*0.05,),
+                          ),
                         ),
                       ),
                     ],
@@ -84,12 +128,12 @@ class Category_detail_page extends StatelessWidget {
                   children: [
                     Text(
                       // '\$2,868',
-                      '\$${productDetails.price}',
+                      '\$${widget.productDetails.price}',
                       style: MyStyle.black70020,
                     ),
                     RoundEdgedButton(
                       // text: 'In stock'.toUpperCase(),
-                      text: '${productDetails.stockStatus}'.toUpperCase(),
+                      text: '${widget.productDetails.stockStatus}'.toUpperCase(),
                       width: 90,
                       verticalPadding: 2,
                       fontSize: 8,
@@ -178,12 +222,12 @@ class Category_detail_page extends StatelessWidget {
                 //   ),
                 // ),
                 SizedBox(height: size_height * 0.02,),
-                if(productDetails.comment!='')
+                if(widget.productDetails.comment!='')
                 Text("Comment from seller", style: MyStyle.black60016,),
-                if(productDetails.comment!='')
+                if(widget.productDetails.comment!='')
                 SizedBox(height: size_height * 0.005),
-                if(productDetails.comment!='')
-                Text("${productDetails.comment}", style: MyStyle.lb40016,),
+                if(widget.productDetails.comment!='')
+                Text("${widget.productDetails.comment}", style: MyStyle.lb40016,),
                 SizedBox(height: size_height * 0.02,),
                 Material(
                   borderRadius: BorderRadius.circular(10),
@@ -201,7 +245,7 @@ class Category_detail_page extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text("Product ID", style: MyStyle.black60015,),
-                              Text("${productDetails.id}", style: MyStyle.lb40015,),
+                              Text("${widget.productDetails.id}", style: MyStyle.lb40015,),
                             ],
                           ),
                           SizedBox(height: size_height * 0.005),
@@ -212,7 +256,7 @@ class Category_detail_page extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text("Part Number", style: MyStyle.black60015,),
-                              Text("${productDetails.partNumber}", style: MyStyle.lb40015,),
+                              Text("${widget.productDetails.partNumber}", style: MyStyle.lb40015,),
                             ],
                           ),
                           SizedBox(height: size_height * 0.005),
@@ -223,7 +267,7 @@ class Category_detail_page extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text("Brand", style: MyStyle.black60015,),
-                              Text("${productDetails.brand}", style: MyStyle.lb40015,),
+                              Text("${widget.productDetails.brand}", style: MyStyle.lb40015,),
                             ],
                           ),
                           SizedBox(height: size_height * 0.005),
@@ -234,7 +278,7 @@ class Category_detail_page extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text("Model", style: MyStyle.black60015,),
-                              Text("${productDetails.model}", style: MyStyle.lb40015,),
+                              Text("${widget.productDetails.model}", style: MyStyle.lb40015,),
                             ],
                           ),
                           SizedBox(height: size_height * 0.005),
@@ -245,7 +289,7 @@ class Category_detail_page extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text("Body", style: MyStyle.black60015,),
-                              Text("${productDetails.body}", style: MyStyle.lb40015,),
+                              Text("${widget.productDetails.body}", style: MyStyle.lb40015,),
                             ],
                           ),
                           SizedBox(height: size_height * 0.005),
@@ -256,7 +300,7 @@ class Category_detail_page extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text("Manufacturer", style: MyStyle.black60015,),
-                              Text("${productDetails.manufacturer}", style: MyStyle.lb40015,),
+                              Text("${widget.productDetails.manufacturer}", style: MyStyle.lb40015,),
                             ],
                           ),
                         ],
@@ -269,30 +313,30 @@ class Category_detail_page extends StatelessWidget {
               ]),
         ),
       ),
-      bottomNavigationBar:productDetails.stockStatus=='В наличии'?
+      bottomNavigationBar:widget.productDetails.stockStatus=='В наличии'?
           GestureDetector(
         onTap: ()async{
-          print('product item   ${productDetails}');
+          print('product item   ${widget.productDetails}');
            Cartmanage.addItem(CartItem(
-             color: productDetails.color,
-             body: productDetails.body,
-             brand: productDetails.brand,
-             comment: productDetails.comment,
-             engine: productDetails.engine,
-             frontRear: productDetails.frontRear,
-             images: productDetails.images,
-             lionRight: productDetails.lionRight,
-             manufacturer: productDetails.manufacturer,
-             model: productDetails.model,
-             newUsed: productDetails.newUsed,
-             partNumber: productDetails.partNumber,
-             stockStatus: productDetails.stockStatus,
-             topBottom: productDetails.topBottom,
-             year: productDetails.year,
-             id:productDetails.id,
-             name:productDetails.name,
-             price:double.parse(productDetails.price.toString()),
-             photo:productDetails.images.length==0?productDetails.photo:productDetails.images[0],
+             color: widget.productDetails.color,
+             body: widget.productDetails.body,
+             brand: widget.productDetails.brand,
+             comment: widget.productDetails.comment,
+             engine: widget.productDetails.engine,
+             frontRear: widget.productDetails.frontRear,
+             images: widget.productDetails.images,
+             lionRight: widget.productDetails.lionRight,
+             manufacturer: widget.productDetails.manufacturer,
+             model: widget.productDetails.model,
+             newUsed: widget.productDetails.newUsed,
+             partNumber: widget.productDetails.partNumber,
+             stockStatus: widget.productDetails.stockStatus,
+             topBottom: widget.productDetails.topBottom,
+             year: widget.productDetails.year,
+             id:widget.productDetails.id,
+             name:widget.productDetails.name,
+             price:double.parse(widget.productDetails.price.toString()),
+             photo:widget.productDetails.images.length==0?widget.productDetails.photo:widget.productDetails.images[0],
              qty:1,
            ));
           push(context: context, screen: Cart(isbottombar: true,));

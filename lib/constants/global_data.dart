@@ -7,6 +7,8 @@ import '../modal/user_modal.dart';
  String cartKey = 'cartItems';
 List<List<dynamic>> csvData = [];
 
+
+List<ProductModal> totalProducts = [];
 Map<String, List<ProductModal>> productsByName= {
 
 };
