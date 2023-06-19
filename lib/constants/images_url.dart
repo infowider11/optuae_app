@@ -2,6 +2,7 @@ class MyImages{
   static const String baseImageUrl = 'assets/images/';
   static const logo = baseImageUrl + 'logo.png';
   static const welcome_img = baseImageUrl + 'welcome_img.png';
+  static const order = baseImageUrl + 'order.jpg';
   static const prelogin1 = baseImageUrl + 'prelogin1.png';
   static const prelogin2 = baseImageUrl + 'prelogin2.png';
   static const prelogin3 = baseImageUrl + 'prelogin3.png';

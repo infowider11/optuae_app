@@ -135,6 +135,7 @@ class _MyAccountState extends State<MyAccount> {
                 child: Column(
                   children: [
                     GestureDetector(
+                      behavior: HitTestBehavior.opaque,
                       onTap: () async{
                         await push(context: context, screen: EditProfile());
                         setState(() {
@@ -153,6 +154,7 @@ class _MyAccountState extends State<MyAccount> {
                     Container(height: size_height*0.001, width: size_width, color: MyColors.lightgrey,),
                     SizedBox(height: size_height*0.01,),
                     GestureDetector(
+                      behavior: HitTestBehavior.opaque,
                       onTap: (){
                         push(context: context, screen: orderHistory());
                       },
@@ -184,6 +186,7 @@ class _MyAccountState extends State<MyAccount> {
                     Container(height: size_height*0.001, width: size_width, color: MyColors.lightgrey,),
                     SizedBox(height: size_height*0.01,),
                     GestureDetector(
+                      behavior: HitTestBehavior.opaque,
                       onTap: (){
                         push(context: context, screen: terms_condition());
                       },
@@ -199,6 +202,7 @@ class _MyAccountState extends State<MyAccount> {
                     Container(height: size_height*0.001, width: size_width, color: MyColors.lightgrey,),
                     SizedBox(height: size_height*0.01,),
                     GestureDetector(
+                      behavior: HitTestBehavior.opaque,
                       onTap: (){
                         push(context: context, screen: privacy_policy());
                       },
@@ -214,6 +218,7 @@ class _MyAccountState extends State<MyAccount> {
                     Container(height: size_height*0.001, width: size_width, color: MyColors.lightgrey,),
                     SizedBox(height: size_height*0.01,),
                     GestureDetector(
+                      behavior: HitTestBehavior.opaque,
                       onTap: (){
                         showDialog(context: context, builder: (context){
                           return AlertDialog(

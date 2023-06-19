@@ -15,7 +15,7 @@ class ProductCard extends StatelessWidget {
   Widget build(BuildContext context) {
 
     return Container(
-      height: 250,
+      height: size_height/4.1,
       // margin: EdgeInsets.only(right: 16),
       child: GestureDetector(
         onTap: () {
@@ -74,6 +74,7 @@ class ProductCard extends StatelessWidget {
                               child: Text(
                                 '${productDetails.name} ${productDetails.brand} ${productDetails.model}',
                                 style: MyStyle.black60013,
+                                overflow: TextOverflow.ellipsis,
                               )),
                         ],
                       ),
@@ -87,6 +88,7 @@ class ProductCard extends StatelessWidget {
                               child: Text(
                                 '${productDetails.brand} ${productDetails.model} ${productDetails.stockStatus} ${productDetails.year}',
                                 style: MyStyle.lb40009,
+                                overflow: TextOverflow.ellipsis,
                               )),
                         ],
                       ),

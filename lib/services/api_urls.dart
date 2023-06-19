@@ -94,4 +94,5 @@ class ApiUrls {
   static const String specialbooking = baseUrl + 'specialbooking';
   static const String getspecialCategory = baseUrl + 'get_special_category';
   static const String getBookinglist = baseUrl + 'get-booking-list?user_id=';
+  static const String getAllBookingIds = baseUrl + 'get-all-bookings-product-ids';
 }

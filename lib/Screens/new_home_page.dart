@@ -1,5 +1,7 @@
 import 'dart:developer';
-
+import 'package:http/http.dart' as http;
+import 'dart:convert' as convert;
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 // import 'package:optuae/constants/colors.dart';
@@ -9,6 +11,7 @@ import 'package:optuae/Screens/Category_detail_page.dart';
 import 'package:optuae/Widget/CustomTexts.dart';
 import 'package:optuae/Widget/custom_dropdown.dart';
 import 'package:optuae/Widget/round_edged_button.dart';
+import 'package:optuae/Widget/showSnackbar.dart';
 import 'package:optuae/services/Customloader.dart';
 import 'package:optuae/services/custom_circular_image.dart';
 import 'package:windows1251/windows1251.dart';
@@ -22,6 +25,7 @@ import '../Widget/custom_text_field.dart';
 import '../constants/images_url.dart';
 import '../constants/sized_box.dart';
 import '../modal/product_modal.dart';
+import '../services/api_urls.dart';
 import '../services/auth.dart';
 import '../services/csv_conversion_services.dart';
 import 'notification.dart';
@@ -39,9 +43,8 @@ class _NewHomePageState extends State<NewHomePage> {
   TextEditingController to = TextEditingController();
   bool isInStock = false;
   bool isOutOfStock = false;
-
   ValueNotifier<bool> loadNotifier = ValueNotifier(false);
-
+  int activeIndex_ =0;
   String? selectedBrand;
 
 
@@ -162,49 +165,102 @@ class _NewHomePageState extends State<NewHomePage> {
     return Expanded(
       child: ListView.builder(
         itemCount: (tempProductsList.length/2).ceil() +1,
-        // shrinkWrap: true,
-        // gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        //   crossAxisCount: 2,
-        //   childAspectRatio: 0.67,
-        //   crossAxisSpacing: 12,
-        //   mainAxisSpacing: 24
-        // ),
 
         itemBuilder: (context, childIndex){
           if(childIndex==0)
-            return Container(
-              margin: EdgeInsets.only(bottom: 10),
-              width: size_width,
-              height: size_height / 4.2,
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  image: DecorationImage(
-                      image: AssetImage(MyImages.home1),
-                      fit: BoxFit.cover)),
-              child: Padding(
-                padding: EdgeInsets.only(
-                    left: size_width * 0.05, top: 20, bottom: 10),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "We have the\nParts",
-                      style: MyStyle.white70026,
-                    ),
-                    SizedBox(
-                      height: size_height * 0.01,
-                    ),
-                    RoundEdgedButton(
-                      text: 'Order Now',
-                      fontSize: 10,
-                      width: size_width * 0.18,
-                      borderRadius: 5,
-                      onTap: () {},
-                    )
-                  ],
+            return CarouselSlider(
+            items: [
+              ///1st Image of Slider
+            Container(
+            margin: EdgeInsets.only(bottom: 10),
+          width: size_width,
+          height: size_height / 4.2,
+          decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10),
+          image: DecorationImage(
+          image: AssetImage(MyImages.home1),
+          fit: BoxFit.cover)),
+          child: Padding(
+          padding: EdgeInsets.only(
+          left: size_width * 0.05, top: 20, bottom: 10),
+          child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+          Text(
+          "We have the\nParts",
+          style: MyStyle.white70026,
+          ),
+          SizedBox(
+          height: size_height * 0.01,
+          ),
+          RoundEdgedButton(
+          text: 'Order Now',
+          fontSize: 10,
+          width: size_width * 0.18,
+          borderRadius: 5,
+          onTap: () {},
+          )
+          ],
+          ),
+          ),
+          ),
+
+              ///2nd Image of Slider
+              Container(
+                margin: EdgeInsets.only(bottom: 10),
+                width: size_width,
+                height: size_height / 4.2,
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    image: DecorationImage(
+                        image: AssetImage(MyImages.order),
+                        fit: BoxFit.cover)),
+                child: Padding(
+                  padding: EdgeInsets.only(
+                      left: size_width * 0.05, top: 20, bottom: 10),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "Продажа лотами",
+                        style: MyStyle.white70026,
+                      ),
+                      SizedBox(
+                        height: size_height * 0.01,
+                      ),
+                      RoundEdgedButton(
+                        text: 'Buy Lots',
+                        fontSize: 10,
+                        width: size_width * 0.18,
+                        borderRadius: 5,
+                        onTap: () {
+                          showSnackbar('Coming soon....');
+                        },
+                      )
+                    ],
+                  ),
                 ),
               ),
-            );
+
+            ],
+            options: CarouselOptions(
+                height: size_height / 4.2,
+                aspectRatio: 16 / 9,
+                viewportFraction: 1,
+                initialPage: 0,
+                enableInfiniteScroll: false,
+                reverse: false,
+                autoPlay: false,
+                autoPlayCurve: Curves.ease,
+                scrollDirection: Axis.horizontal,
+                onPageChanged: (index, reason) {
+                  setState(() {
+                    activeIndex_ = index;
+                  });
+                }
+            ),
+          );
+
           return Padding(
             padding: const EdgeInsets.symmetric(vertical: 6),
             child: Row(
@@ -236,8 +292,6 @@ class _NewHomePageState extends State<NewHomePage> {
       }
     });
   }
-
-  // Map<String, List<ProductModal>> tempProducts = {};
 
   List<ProductModal> tempProductsList = [];
 
@@ -298,13 +352,6 @@ class _NewHomePageState extends State<NewHomePage> {
   }
 
 
-  sortData(){
-
-  }
-
-
-
-
 
   Future<void> onRefresh()async{
     await MyCsvConversionServices.getCsvData();
@@ -313,19 +360,14 @@ class _NewHomePageState extends State<NewHomePage> {
     isInStock = false;
     isOutOfStock = false;
     searchController.clear();
-    setState(() {
-
-    });
+    setState(() {});
   }
 
   @override
   void initState() {
-    // TODO: implement initState
-
-
     loadNotifier.value = true;
     MyCsvConversionServices.getCsvData().then((value){
-      // loadNotifier.value = false;
+      setState((){});
       searchOnChanged(0);
     });
     super.initState();

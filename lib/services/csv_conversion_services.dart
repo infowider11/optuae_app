@@ -9,10 +9,12 @@ import '../constants/global_data.dart';
 import 'dart:convert' as convert;
 
 import '../modal/product_modal.dart';
+import 'api_urls.dart';
 
 class MyCsvConversionServices{
-  static Future getCsvData() async {
-    String path = (await getApplicationDocumentsDirectory()).path;
+  static Future   getCsvData() async {
+    // String path = (await getApplicationDocumentsDirectory()).path;
+    String path = (await getTemporaryDirectory()).path;
     File file = File(path + 'manish.csv');
     file.openWrite();
     final response = await http
@@ -30,14 +32,20 @@ class MyCsvConversionServices{
         .transform(CsvToListConverter())
         .toList();
     print('the fields are $csvData');
-    // setState(() {
-    //
-    // });
-    convertCsvDataIntoProductModal();
+
+    await convertCsvDataIntoProductModal();
   }
 
 
-  static convertCsvDataIntoProductModal() {
+  static convertCsvDataIntoProductModal() async{
+    final response = await http.get(Uri.parse(ApiUrls.getAllBookingIds));
+    var jsonResponse = convert.jsonDecode(response.body);
+    print("response==${jsonResponse}");
+    if(jsonResponse['status'].toString() == "1"){
+      product_id_check_list = jsonResponse['data'].split(",");
+    }
+    print("product_id_check_list$product_id_check_list");
+
     productsByName.clear();
     // csvData.removeAt(0);
     for (int i = 1; i < csvData.length; i++) {
@@ -66,18 +74,27 @@ class MyCsvConversionServices{
         stockStatus: dataList[17],
         images: dataList[15].toString().split(", "),
       );
+      print('printing_dataList[0]=====${dataList[0]}');
 
-      /// jai shree ram
-      totalProducts.add(productTemp);
-      productsByName['${dataList[1]}'] = [
-        // ...(productsByName['${dataList[1]}'] ?? []),
-        productTemp,
-        ...(productsByName['${dataList[1]}'] ?? []),
-      ];
-      productsByBrands['${dataList[2]}'] = [
-        ...(productsByBrands['${dataList[2]}'] ?? []),
-        productTemp,
-      ];
+      if(!product_id_check_list.contains(productTemp.id)){
+
+        /// jai shree ram
+        // totalProducts.add(productTemp);
+        totalProducts =[
+          productTemp,
+          ...totalProducts
+        ];
+        productsByName['${dataList[1]}'] = [
+          productTemp,
+          ...(productsByName['${dataList[1]}'] ?? []),
+        ];
+        productsByBrands['${dataList[2]}'] = [
+          productTemp,
+          ...(productsByBrands['${dataList[2]}'] ?? []),
+        ];
+      }
+
+
 
     }
   }

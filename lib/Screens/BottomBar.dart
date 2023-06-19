@@ -72,7 +72,7 @@ class _BottomBarState extends State<BottomBar> {
       ),
 
       bottomNavigationBar: Container(
-        height: size_height*0.09,
+        height: size_height*0.11,
         child: BottomNavigationBar(
           backgroundColor:MyColors.black,
           type: BottomNavigationBarType.fixed,

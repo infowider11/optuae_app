@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:optuae/constants/Textstyles.dart';
+import 'package:optuae/services/navigation_functions.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../constants/colors.dart';
 import '../constants/global_data.dart';
@@ -13,9 +14,13 @@ import '../Widget/round_edged_button.dart';
 import '../modal/cart_modal.dart';
 import '../services/api_urls.dart';
 import '../services/cart_manage.dart';
+import '../services/csv_conversion_services.dart';
 import '../services/validation.dart';
 import '../services/webservices.dart';
 import 'SelectAddress.dart';
+
+
+import 'new_home_page.dart';
 
 class NeedDelivery extends StatefulWidget {
   const NeedDelivery({Key? key}) : super(key: key);
@@ -52,6 +57,7 @@ class _NeedDeliveryState extends State<NeedDelivery> {
     if(cartData!=null){
       carts = cartData.map((item) => CartItem.fromJson(jsonDecode(item) as Map<String, dynamic>)).toList().cast<CartItem>();
     }
+    print("printing_carts[i].id=== ${carts[0].id.runtimeType}");
     setState(() {});
   }
 
@@ -178,6 +184,7 @@ class _NeedDeliveryState extends State<NeedDelivery> {
                 fontSize: 20,
                 height: size_height * 0.07,
                 onTap: () async{
+                  loadingShow(context);
                   if(validateString(firstName.text,'Please enter first name.', context)==null&&
                       validateString(lastName.text,'Please enter last name.', context)==null&&
                       validateString(city.text,'Please enter city/address.', context)==null&&
@@ -216,17 +223,28 @@ class _NeedDeliveryState extends State<NeedDelivery> {
                       data['manufacturer[$i]']=carts[i].manufacturer.toString();
                       data['newUsed[$i]']=carts[i].newUsed.toString();
                       data['stockStatus[$i]']=carts[i].stockStatus.toString();
-                      // for(int j=0;j<carts[i].images.length;j++){
-                      //   data['images[$i][$j]']=carts[i].images[j].toString();
+
+                      ///----------- product removing code after booked ------------------
+                      // final response = await http.get(Uri.parse(ApiUrls.getAllBookingIds));
+                      // var jsonResponse = convert.jsonDecode(response.body);
+                      // print("response==${jsonResponse}");
+                      // if(jsonResponse['status'].toString() == "1"){
+                      //   product_id_check_list = jsonResponse['data'].split(",");
                       // }
+                      // print("product_id_check_list$product_id_check_list");
+                      // await MyCsvConversionServices.getCsvData();
+
+                      print('product deleted from list after booking and selected id is ${carts[i].id.toString()}');
+                      ///--------------------------------------------------
+
                     }
-                    loadingShow(context);
                     var res = await Webservices.postDataWithImageFunction(body:data,files:files,apiUrl:ApiUrls.booking);
                     loadingHide(context);
                     print('booking confirm $res');
                     if(res['status'].toString()=='1'){
                       success_popup(res['booking_id'].toString());
                     }
+
                   }
                   //push(context: context, screen: SelectAddress());
                 },
@@ -268,7 +286,8 @@ class _NeedDeliveryState extends State<NeedDelivery> {
               TextButton(
                 onPressed: () {
                   Cartmanage.clear();
-                  Navigator.popUntil(context, (route) => route.isFirst);
+                  // Navigator.popUntil(context, (route) => route.isFirst);
+                  pushAndRemoveUntil(context: context, screen: NewHomePage());
                 },
                 child: Text(
                   'Continue',
