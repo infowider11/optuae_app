@@ -15,7 +15,7 @@ class ProductCard extends StatelessWidget {
   Widget build(BuildContext context) {
 
     return Container(
-      height: size_height/4.1,
+      height: size_height/4,
       // margin: EdgeInsets.only(right: 16),
       child: GestureDetector(
         onTap: () {
