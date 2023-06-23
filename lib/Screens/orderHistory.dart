@@ -1,6 +1,7 @@
 import 'package:buttons_tabbar/buttons_tabbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:optuae/Functions/navigation_functions.dart';
 import 'package:optuae/constants/colors.dart';
 import 'package:optuae/constants/global_data.dart';
 import 'package:optuae/services/api_urls.dart';
@@ -10,6 +11,7 @@ import '../constants/Textstyles.dart';
 import '../constants/images_url.dart';
 import '../Widget/appbar.dart';
 import '../services/Customloader.dart';
+import 'orderDetail.dart';
 
 class orderHistory extends StatefulWidget {
   const orderHistory({Key? key}) : super(key: key);
@@ -139,63 +141,71 @@ class _orderHistoryState extends State<orderHistory> {
         itemCount: alllists.length,
         padding: EdgeInsets.symmetric(vertical: 10.0),
         itemBuilder: (context,index){
-        return Padding(
-        padding: EdgeInsets.only(bottom: 5.0,),
-        child: Material(
-          borderRadius: BorderRadius.circular(10),
-          elevation: 3,
+        return GestureDetector(
+          behavior: HitTestBehavior.translucent,
+          onTap: (){
+            push(context: context, screen: orderDetail(
+              order_id: alllists[index]['id'].toString(),
+            ));
+          },
           child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: size_width*0.025, vertical: size_height*0.015),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                CustomCircularImage(
-                  imageUrl: userData.profileImage!,//alllists[index]['booking_items'][0]['photo'],
-                  fit: BoxFit.cover,
-                  fileType: CustomFileType.network,
-                ),
-                // SizedBox(width: size_width*0.02,),
-                Expanded(
-                  flex: 6,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Text('${alllists[index]['fname']} ${alllists[index]['lname']}', style: MyStyle.black50015,),
-                      // SizedBox(height: size_height*0.005,),
-                      Text('Total Cost: \$${alllists[index]['total_amount']}', style: MyStyle.black40013,),
-                      // SizedBox(height: size_height*0.005,),
-                      Text('Product: ${productnamewithid(alllists[index]['booking_items'])}'),
-                      Text('Product count: ${alllists[index]['booking_items'].length}'),
-                      // SizedBox(height: size_height*0.005,),
-                      Text('Order Id: #${alllists[index]['display_id']??''}', style: MyStyle.lb40013,),
-                    ],
+          padding: EdgeInsets.only(bottom: 5.0,),
+          child: Material(
+            borderRadius: BorderRadius.circular(10),
+            elevation: 3,
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: size_width*0.025, vertical: size_height*0.015),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  CustomCircularImage(
+                    imageUrl: userData.profileImage!,//alllists[index]['booking_items'][0]['photo'],
+                    fit: BoxFit.cover,
+                    fileType: CustomFileType.network,
                   ),
-                ),
-                Spacer(),
-                Container(
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(5),
-                      color:
-                      alllists[index]['status'].toString() == '0' ? MyColors.orange :
-                      alllists[index]['status'].toString() == '2' ? MyColors.green :
-                      alllists[index]['status'].toString() == '3' ? MyColors.red :
-                      alllists[index]['status'].toString() == '1'?MyColors.primaryColor:null,
+                  // SizedBox(width: size_width*0.02,),
+                  Expanded(
+                    flex: 6,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Text('${alllists[index]['fname']} ${alllists[index]['lname']}', style: MyStyle.black50015,),
+                        // SizedBox(height: size_height*0.005,),
+                        Text('Total Cost: \$${alllists[index]['total_amount']}', style: MyStyle.black40013,),
+                        // SizedBox(height: size_height*0.005,),
+                        Text('Product: ${productnamewithid(alllists[index]['booking_items'])}'),
+                        Text('Product count: ${alllists[index]['booking_items'].length}'),
+                        // SizedBox(height: size_height*0.005,),
+                        Text('Order Id: #${alllists[index]['display_id']??''}', style: MyStyle.lb40013,),
+                      ],
+                    ),
                   ),
-                  child: Padding(
-                      padding: EdgeInsets.symmetric(horizontal: size_width*0.025, vertical: size_height*0.005),
-                      child:Text(
-                        alllists[index]['status'].toString() == '0' ?'Pendding':
-                        alllists[index]['status'].toString() == '2' ? 'Delivered' :
-                        alllists[index]['status'].toString() == '1' ? 'Shipped' :
-                        alllists[index]['status'].toString() == '3'?'Cancelled':'Cancelled', style: MyStyle.white70012,)
-                  ),
-                )
-              ],
+                  Spacer(),
+                  Container(
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(5),
+                        color:
+                        alllists[index]['status'].toString() == '0' ? MyColors.orange :
+                        alllists[index]['status'].toString() == '2' ? MyColors.green :
+                        alllists[index]['status'].toString() == '3' ? MyColors.red :
+                        alllists[index]['status'].toString() == '1'?MyColors.primaryColor:null,
+                    ),
+                    child: Padding(
+                        padding: EdgeInsets.symmetric(horizontal: size_width*0.025, vertical: size_height*0.005),
+                        child:Text(
+                          alllists[index]['status'].toString() == '0' ?'Pendding':
+                          alllists[index]['status'].toString() == '2' ? 'Delivered' :
+                          alllists[index]['status'].toString() == '1' ? 'Shipped' :
+                          alllists[index]['status'].toString() == '3'?'Cancelled':'Cancelled', style: MyStyle.white70012,)
+                    ),
+                  )
+                ],
+              ),
             ),
           ),
-        ),
-      );
+      ),
+        );
     }):Center(
       child: Text('No data found.'),
     );
@@ -207,60 +217,68 @@ class _orderHistoryState extends State<orderHistory> {
        itemCount: pendinglist.length,
        padding: EdgeInsets.symmetric(vertical: 10.0),
        itemBuilder: (context,index){
-         return Padding(
-           padding: EdgeInsets.only(bottom: 5.0,),
-           child: Material(
-             borderRadius: BorderRadius.circular(10),
-             elevation: 3,
-             child: Padding(
-               padding: EdgeInsets.symmetric(horizontal: size_width*0.025, vertical: size_height*0.015),
-               child: Row(
-                 crossAxisAlignment: CrossAxisAlignment.center,
-                 children: [
-                   CustomCircularImage(
-                     imageUrl: userData.profileImage!,//alllists[index]['booking_items'][0]['photo'],
-                     fit: BoxFit.cover,
-                     fileType: CustomFileType.network,
-                   ),
-                   // SizedBox(width: size_width*0.02,),
-                   Expanded(
-                     flex: 6,
-                     child: Column(
-                       crossAxisAlignment: CrossAxisAlignment.start,
-                       mainAxisAlignment: MainAxisAlignment.start,
-                       children: [
-                         Text('${pendinglist[index]['fname']} ${pendinglist[index]['lname']}', style: MyStyle.black50015,),
-                         // SizedBox(height: size_height*0.005,),
-                         Text('Total Cost: \$${pendinglist[index]['total_amount']}', style: MyStyle.black40013,),
-                         // SizedBox(height: size_height*0.005,),
-                         Text('Product: ${productnamewithid(pendinglist[index]['booking_items'])}'),
-                         Text('Product count: ${pendinglist[index]['booking_items'].length}'),
-                         // SizedBox(height: size_height*0.005,),
-                         Text('Order Id: #${pendinglist[index]['display_id']??''}', style: MyStyle.lb40013,),
+         return GestureDetector(
+           behavior: HitTestBehavior.translucent,
+           onTap: (){
+             push(context: context, screen: orderDetail(
+               order_id: pendinglist[index]['id'].toString(),
+             ));
+           },
+           child: Padding(
+             padding: EdgeInsets.only(bottom: 5.0,),
+             child: Material(
+               borderRadius: BorderRadius.circular(10),
+               elevation: 3,
+               child: Padding(
+                 padding: EdgeInsets.symmetric(horizontal: size_width*0.025, vertical: size_height*0.015),
+                 child: Row(
+                   crossAxisAlignment: CrossAxisAlignment.center,
+                   children: [
+                     CustomCircularImage(
+                       imageUrl: userData.profileImage!,//alllists[index]['booking_items'][0]['photo'],
+                       fit: BoxFit.cover,
+                       fileType: CustomFileType.network,
+                     ),
+                     // SizedBox(width: size_width*0.02,),
+                     Expanded(
+                       flex: 6,
+                       child: Column(
+                         crossAxisAlignment: CrossAxisAlignment.start,
+                         mainAxisAlignment: MainAxisAlignment.start,
+                         children: [
+                           Text('${pendinglist[index]['fname']} ${pendinglist[index]['lname']}', style: MyStyle.black50015,),
+                           // SizedBox(height: size_height*0.005,),
+                           Text('Total Cost: \$${pendinglist[index]['total_amount']}', style: MyStyle.black40013,),
+                           // SizedBox(height: size_height*0.005,),
+                           Text('Product: ${productnamewithid(pendinglist[index]['booking_items'])}'),
+                           Text('Product count: ${pendinglist[index]['booking_items'].length}'),
+                           // SizedBox(height: size_height*0.005,),
+                           Text('Order Id: #${pendinglist[index]['display_id']??''}', style: MyStyle.lb40013,),
 
-                       ],
+                         ],
+                       ),
                      ),
-                   ),
-                   Spacer(),
-                   Container(
-                     decoration: BoxDecoration(
-                       borderRadius: BorderRadius.circular(5),
-                       color:
-                       pendinglist[index]['status'].toString() == '0' ? MyColors.orange :
-                       pendinglist[index]['status'].toString() == '2' ? MyColors.green :
-                       pendinglist[index]['status'].toString() == '3' ? MyColors.red :
-                       pendinglist[index]['status'].toString() == '1'?MyColors.primaryColor:null,
-                     ),
-                     child: Padding(
-                         padding: EdgeInsets.symmetric(horizontal: size_width*0.025, vertical: size_height*0.005),
-                         child:Text(
-                           pendinglist[index]['status'].toString() == '0' ?'Pendding':
-                           pendinglist[index]['status'].toString() == '2' ? 'Delivered' :
-                           pendinglist[index]['status'].toString() == '1' ? 'Shipped' :
-                           pendinglist[index]['status'].toString() == '3'?'Cancelled':'Cancelled', style: MyStyle.white70012,)
-                     ),
-                   )
-                 ],
+                     Spacer(),
+                     Container(
+                       decoration: BoxDecoration(
+                         borderRadius: BorderRadius.circular(5),
+                         color:
+                         pendinglist[index]['status'].toString() == '0' ? MyColors.orange :
+                         pendinglist[index]['status'].toString() == '2' ? MyColors.green :
+                         pendinglist[index]['status'].toString() == '3' ? MyColors.red :
+                         pendinglist[index]['status'].toString() == '1'?MyColors.primaryColor:null,
+                       ),
+                       child: Padding(
+                           padding: EdgeInsets.symmetric(horizontal: size_width*0.025, vertical: size_height*0.005),
+                           child:Text(
+                             pendinglist[index]['status'].toString() == '0' ?'Pendding':
+                             pendinglist[index]['status'].toString() == '2' ? 'Delivered' :
+                             pendinglist[index]['status'].toString() == '1' ? 'Shipped' :
+                             pendinglist[index]['status'].toString() == '3'?'Cancelled':'Cancelled', style: MyStyle.white70012,)
+                       ),
+                     )
+                   ],
+                 ),
                ),
              ),
            ),
@@ -276,60 +294,68 @@ class _orderHistoryState extends State<orderHistory> {
        itemCount: Shippedlist.length,
        padding: EdgeInsets.symmetric(vertical: 10.0),
        itemBuilder: (context,index){
-         return Padding(
-           padding: EdgeInsets.only(bottom: 5.0,),
-           child: Material(
-             borderRadius: BorderRadius.circular(10),
-             elevation: 3,
-             child: Padding(
-               padding: EdgeInsets.symmetric(horizontal: size_width*0.025, vertical: size_height*0.015),
-               child: Row(
-                 crossAxisAlignment: CrossAxisAlignment.center,
-                 children: [
-                   CustomCircularImage(
-                     imageUrl: userData.profileImage!,//alllists[index]['booking_items'][0]['photo'],
-                     fit: BoxFit.cover,
-                     fileType: CustomFileType.network,
-                   ),
-                   // SizedBox(width: size_width*0.02,),
-                   Expanded(
-                     flex: 6,
-                     child: Column(
-                       crossAxisAlignment: CrossAxisAlignment.start,
-                       mainAxisAlignment: MainAxisAlignment.start,
-                       children: [
-                         Text('${Shippedlist[index]['fname']} ${Shippedlist[index]['lname']}', style: MyStyle.black50015,),
-                         // SizedBox(height: size_height*0.005,),
-                         Text('Total Cost: \$${Shippedlist[index]['total_amount']}', style: MyStyle.black40013,),
-                         // SizedBox(height: size_height*0.005,),
-                         Text('Product: ${productnamewithid(Shippedlist[index]['booking_items'])}'),
-                         Text('Product count: ${Shippedlist[index]['booking_items'].length}'),
-                         // SizedBox(height: size_height*0.005,),
-                         Text('Order Id: #${Shippedlist[index]['display_id']??''}', style: MyStyle.lb40013,),
+         return GestureDetector(
+           behavior: HitTestBehavior.translucent,
+           onTap: (){
+             push(context: context, screen: orderDetail(
+               order_id: Shippedlist[index]['id'].toString(),
+             ));
+           },
+           child: Padding(
+             padding: EdgeInsets.only(bottom: 5.0,),
+             child: Material(
+               borderRadius: BorderRadius.circular(10),
+               elevation: 3,
+               child: Padding(
+                 padding: EdgeInsets.symmetric(horizontal: size_width*0.025, vertical: size_height*0.015),
+                 child: Row(
+                   crossAxisAlignment: CrossAxisAlignment.center,
+                   children: [
+                     CustomCircularImage(
+                       imageUrl: userData.profileImage!,//alllists[index]['booking_items'][0]['photo'],
+                       fit: BoxFit.cover,
+                       fileType: CustomFileType.network,
+                     ),
+                     // SizedBox(width: size_width*0.02,),
+                     Expanded(
+                       flex: 6,
+                       child: Column(
+                         crossAxisAlignment: CrossAxisAlignment.start,
+                         mainAxisAlignment: MainAxisAlignment.start,
+                         children: [
+                           Text('${Shippedlist[index]['fname']} ${Shippedlist[index]['lname']}', style: MyStyle.black50015,),
+                           // SizedBox(height: size_height*0.005,),
+                           Text('Total Cost: \$${Shippedlist[index]['total_amount']}', style: MyStyle.black40013,),
+                           // SizedBox(height: size_height*0.005,),
+                           Text('Product: ${productnamewithid(Shippedlist[index]['booking_items'])}'),
+                           Text('Product count: ${Shippedlist[index]['booking_items'].length}'),
+                           // SizedBox(height: size_height*0.005,),
+                           Text('Order Id: #${Shippedlist[index]['display_id']??''}', style: MyStyle.lb40013,),
 
-                       ],
+                         ],
+                       ),
                      ),
-                   ),
-                   Spacer(),
-                   Container(
-                     decoration: BoxDecoration(
-                       borderRadius: BorderRadius.circular(5),
-                       color:
-                       Shippedlist[index]['status'].toString() == '0' ? MyColors.orange :
-                       Shippedlist[index]['status'].toString() == '2' ? MyColors.green :
-                       Shippedlist[index]['status'].toString() == '3' ? MyColors.red :
-                       Shippedlist[index]['status'].toString() == '1'?MyColors.primaryColor:null,
-                     ),
-                     child: Padding(
-                         padding: EdgeInsets.symmetric(horizontal: size_width*0.025, vertical: size_height*0.005),
-                         child:Text(
-                           Shippedlist[index]['status'].toString() == '0' ?'Pendding':
-                           Shippedlist[index]['status'].toString() == '2' ? 'Delivered' :
-                           Shippedlist[index]['status'].toString() == '1' ? 'Shipped' :
-                           Shippedlist[index]['status'].toString() == '3'?'Cancelled':'Cancelled', style: MyStyle.white70012,)
-                     ),
-                   )
-                 ],
+                     Spacer(),
+                     Container(
+                       decoration: BoxDecoration(
+                         borderRadius: BorderRadius.circular(5),
+                         color:
+                         Shippedlist[index]['status'].toString() == '0' ? MyColors.orange :
+                         Shippedlist[index]['status'].toString() == '2' ? MyColors.green :
+                         Shippedlist[index]['status'].toString() == '3' ? MyColors.red :
+                         Shippedlist[index]['status'].toString() == '1'?MyColors.primaryColor:null,
+                       ),
+                       child: Padding(
+                           padding: EdgeInsets.symmetric(horizontal: size_width*0.025, vertical: size_height*0.005),
+                           child:Text(
+                             Shippedlist[index]['status'].toString() == '0' ?'Pendding':
+                             Shippedlist[index]['status'].toString() == '2' ? 'Delivered' :
+                             Shippedlist[index]['status'].toString() == '1' ? 'Shipped' :
+                             Shippedlist[index]['status'].toString() == '3'?'Cancelled':'Cancelled', style: MyStyle.white70012,)
+                       ),
+                     )
+                   ],
+                 ),
                ),
              ),
            ),
@@ -345,60 +371,68 @@ class _orderHistoryState extends State<orderHistory> {
        itemCount: Cancelledlist.length,
        padding: EdgeInsets.symmetric(vertical: 10.0),
        itemBuilder: (context,index){
-         return Padding(
-           padding: EdgeInsets.only(bottom: 5.0,),
-           child: Material(
-             borderRadius: BorderRadius.circular(10),
-             elevation: 3,
-             child: Padding(
-               padding: EdgeInsets.symmetric(horizontal: size_width*0.025, vertical: size_height*0.015),
-               child: Row(
-                 crossAxisAlignment: CrossAxisAlignment.center,
-                 children: [
-                   CustomCircularImage(
-                     imageUrl: userData.profileImage!,//alllists[index]['booking_items'][0]['photo'],
-                     fit: BoxFit.cover,
-                     fileType: CustomFileType.network,
-                   ),
-                   // SizedBox(width: size_width*0.02,),
-                   Expanded(
-                     flex: 6,
-                     child: Column(
-                       crossAxisAlignment: CrossAxisAlignment.start,
-                       mainAxisAlignment: MainAxisAlignment.start,
-                       children: [
-                         Text('${Cancelledlist[index]['fname']} ${Cancelledlist[index]['lname']}', style: MyStyle.black50015,),
-                         // SizedBox(height: size_height*0.005,),
-                         Text('Total Cost: \$${Cancelledlist[index]['total_amount']}', style: MyStyle.black40013,),
-                         // SizedBox(height: size_height*0.005,),
-                         Text('Product: ${productnamewithid(Cancelledlist[index]['booking_items'])}'),
-                         Text('Product count: ${Cancelledlist[index]['booking_items'].length}'),
-                         // SizedBox(height: size_height*0.005,),
-                         Text('Order Id: #${Cancelledlist[index]['display_id']??''}', style: MyStyle.lb40013,),
+         return GestureDetector(
+           behavior: HitTestBehavior.translucent,
+           onTap: (){
+             push(context: context, screen: orderDetail(
+               order_id: Cancelledlist[index]['id'].toString(),
+             ));
+           },
+           child: Padding(
+             padding: EdgeInsets.only(bottom: 5.0,),
+             child: Material(
+               borderRadius: BorderRadius.circular(10),
+               elevation: 3,
+               child: Padding(
+                 padding: EdgeInsets.symmetric(horizontal: size_width*0.025, vertical: size_height*0.015),
+                 child: Row(
+                   crossAxisAlignment: CrossAxisAlignment.center,
+                   children: [
+                     CustomCircularImage(
+                       imageUrl: userData.profileImage!,//alllists[index]['booking_items'][0]['photo'],
+                       fit: BoxFit.cover,
+                       fileType: CustomFileType.network,
+                     ),
+                     // SizedBox(width: size_width*0.02,),
+                     Expanded(
+                       flex: 6,
+                       child: Column(
+                         crossAxisAlignment: CrossAxisAlignment.start,
+                         mainAxisAlignment: MainAxisAlignment.start,
+                         children: [
+                           Text('${Cancelledlist[index]['fname']} ${Cancelledlist[index]['lname']}', style: MyStyle.black50015,),
+                           // SizedBox(height: size_height*0.005,),
+                           Text('Total Cost: \$${Cancelledlist[index]['total_amount']}', style: MyStyle.black40013,),
+                           // SizedBox(height: size_height*0.005,),
+                           Text('Product: ${productnamewithid(Cancelledlist[index]['booking_items'])}'),
+                           Text('Product count: ${Cancelledlist[index]['booking_items'].length}'),
+                           // SizedBox(height: size_height*0.005,),
+                           Text('Order Id: #${Cancelledlist[index]['display_id']??''}', style: MyStyle.lb40013,),
 
-                       ],
+                         ],
+                       ),
                      ),
-                   ),
-                   Spacer(),
-                   Container(
-                     decoration: BoxDecoration(
-                       borderRadius: BorderRadius.circular(5),
-                       color:
-                       Cancelledlist[index]['status'].toString() == '0' ? MyColors.orange :
-                       Cancelledlist[index]['status'].toString() == '2' ? MyColors.green :
-                       Cancelledlist[index]['status'].toString() == '3' ? MyColors.red :
-                       Cancelledlist[index]['status'].toString() == '1'?MyColors.primaryColor:null,
-                     ),
-                     child: Padding(
-                         padding: EdgeInsets.symmetric(horizontal: size_width*0.025, vertical: size_height*0.005),
-                         child:Text(
-                           Cancelledlist[index]['status'].toString() == '0' ?'Pendding':
-                           Cancelledlist[index]['status'].toString() == '2' ? 'Delivered' :
-                           Cancelledlist[index]['status'].toString() == '1' ? 'Shipped' :
-                           Cancelledlist[index]['status'].toString() == '3'?'Cancelled':'Cancelled', style: MyStyle.white70012,)
-                     ),
-                   )
-                 ],
+                     Spacer(),
+                     Container(
+                       decoration: BoxDecoration(
+                         borderRadius: BorderRadius.circular(5),
+                         color:
+                         Cancelledlist[index]['status'].toString() == '0' ? MyColors.orange :
+                         Cancelledlist[index]['status'].toString() == '2' ? MyColors.green :
+                         Cancelledlist[index]['status'].toString() == '3' ? MyColors.red :
+                         Cancelledlist[index]['status'].toString() == '1'?MyColors.primaryColor:null,
+                       ),
+                       child: Padding(
+                           padding: EdgeInsets.symmetric(horizontal: size_width*0.025, vertical: size_height*0.005),
+                           child:Text(
+                             Cancelledlist[index]['status'].toString() == '0' ?'Pendding':
+                             Cancelledlist[index]['status'].toString() == '2' ? 'Delivered' :
+                             Cancelledlist[index]['status'].toString() == '1' ? 'Shipped' :
+                             Cancelledlist[index]['status'].toString() == '3'?'Cancelled':'Cancelled', style: MyStyle.white70012,)
+                       ),
+                     )
+                   ],
+                 ),
                ),
              ),
            ),
@@ -414,60 +448,68 @@ class _orderHistoryState extends State<orderHistory> {
        itemCount: deliveredlist.length,
        padding: EdgeInsets.symmetric(vertical: 10.0),
        itemBuilder: (context,index){
-         return Padding(
-           padding: EdgeInsets.only(bottom: 5.0,),
-           child: Material(
-             borderRadius: BorderRadius.circular(10),
-             elevation: 3,
-             child: Padding(
-               padding: EdgeInsets.symmetric(horizontal: size_width*0.025, vertical: size_height*0.015),
-               child: Row(
-                 crossAxisAlignment: CrossAxisAlignment.center,
-                 children: [
-                   CustomCircularImage(
-                     imageUrl: userData.profileImage!,//alllists[index]['booking_items'][0]['photo'],
-                     fit: BoxFit.cover,
-                     fileType: CustomFileType.network,
-                   ),
-                   // SizedBox(width: size_width*0.02,),
-                   Expanded(
-                     flex: 6,
-                     child: Column(
-                       crossAxisAlignment: CrossAxisAlignment.start,
-                       mainAxisAlignment: MainAxisAlignment.start,
-                       children: [
-                         Text('${deliveredlist[index]['fname']} ${deliveredlist[index]['lname']}', style: MyStyle.black50015,),
-                         // SizedBox(height: size_height*0.005,),
-                         Text('Total Cost: \$${deliveredlist[index]['total_amount']}', style: MyStyle.black40013,),
-                         // SizedBox(height: size_height*0.005,),
-                         Text('Product: ${productnamewithid(deliveredlist[index]['booking_items'])}'),
-                         Text('Product count: ${deliveredlist[index]['booking_items'].length}'),
-                         // SizedBox(height: size_height*0.005,),
-                         Text('Order Id: #${deliveredlist[index]['display_id']??''}', style: MyStyle.lb40013,),
+         return GestureDetector(
+           behavior: HitTestBehavior.translucent,
+           onTap: (){
+             push(context: context, screen: orderDetail(
+               order_id: deliveredlist[index]['id'].toString(),
+             ));
+           },
+           child: Padding(
+             padding: EdgeInsets.only(bottom: 5.0,),
+             child: Material(
+               borderRadius: BorderRadius.circular(10),
+               elevation: 3,
+               child: Padding(
+                 padding: EdgeInsets.symmetric(horizontal: size_width*0.025, vertical: size_height*0.015),
+                 child: Row(
+                   crossAxisAlignment: CrossAxisAlignment.center,
+                   children: [
+                     CustomCircularImage(
+                       imageUrl: userData.profileImage!,//alllists[index]['booking_items'][0]['photo'],
+                       fit: BoxFit.cover,
+                       fileType: CustomFileType.network,
+                     ),
+                     // SizedBox(width: size_width*0.02,),
+                     Expanded(
+                       flex: 6,
+                       child: Column(
+                         crossAxisAlignment: CrossAxisAlignment.start,
+                         mainAxisAlignment: MainAxisAlignment.start,
+                         children: [
+                           Text('${deliveredlist[index]['fname']} ${deliveredlist[index]['lname']}', style: MyStyle.black50015,),
+                           // SizedBox(height: size_height*0.005,),
+                           Text('Total Cost: \$${deliveredlist[index]['total_amount']}', style: MyStyle.black40013,),
+                           // SizedBox(height: size_height*0.005,),
+                           Text('Product: ${productnamewithid(deliveredlist[index]['booking_items'])}'),
+                           Text('Product count: ${deliveredlist[index]['booking_items'].length}'),
+                           // SizedBox(height: size_height*0.005,),
+                           Text('Order Id: #${deliveredlist[index]['display_id']??''}', style: MyStyle.lb40013,),
 
-                       ],
+                         ],
+                       ),
                      ),
-                   ),
-                   Spacer(),
-                   Container(
-                     decoration: BoxDecoration(
-                       borderRadius: BorderRadius.circular(5),
-                       color:
-                       deliveredlist[index]['status'].toString() == '0' ? MyColors.orange :
-                       deliveredlist[index]['status'].toString() == '2' ? MyColors.green :
-                       deliveredlist[index]['status'].toString() == '3' ? MyColors.red :
-                       deliveredlist[index]['status'].toString() == '1'?MyColors.primaryColor:null,
-                     ),
-                     child: Padding(
-                         padding: EdgeInsets.symmetric(horizontal: size_width*0.025, vertical: size_height*0.005),
-                         child:Text(
-                           deliveredlist[index]['status'].toString() == '0' ?'Pendding':
-                           deliveredlist[index]['status'].toString() == '2' ? 'Delivered' :
-                           deliveredlist[index]['status'].toString() == '1' ? 'Shipped' :
-                           deliveredlist[index]['status'].toString() == '3'?'Cancelled':'Cancelled', style: MyStyle.white70012,)
-                     ),
-                   )
-                 ],
+                     Spacer(),
+                     Container(
+                       decoration: BoxDecoration(
+                         borderRadius: BorderRadius.circular(5),
+                         color:
+                         deliveredlist[index]['status'].toString() == '0' ? MyColors.orange :
+                         deliveredlist[index]['status'].toString() == '2' ? MyColors.green :
+                         deliveredlist[index]['status'].toString() == '3' ? MyColors.red :
+                         deliveredlist[index]['status'].toString() == '1'?MyColors.primaryColor:null,
+                       ),
+                       child: Padding(
+                           padding: EdgeInsets.symmetric(horizontal: size_width*0.025, vertical: size_height*0.005),
+                           child:Text(
+                             deliveredlist[index]['status'].toString() == '0' ?'Pendding':
+                             deliveredlist[index]['status'].toString() == '2' ? 'Delivered' :
+                             deliveredlist[index]['status'].toString() == '1' ? 'Shipped' :
+                             deliveredlist[index]['status'].toString() == '3'?'Cancelled':'Cancelled', style: MyStyle.white70012,)
+                       ),
+                     )
+                   ],
+                 ),
                ),
              ),
            ),

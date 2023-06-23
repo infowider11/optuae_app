@@ -17,6 +17,7 @@ import '../services/cart_manage.dart';
 import '../services/csv_conversion_services.dart';
 import '../services/validation.dart';
 import '../services/webservices.dart';
+import 'BottomBar.dart';
 import 'SelectAddress.dart';
 
 
@@ -184,7 +185,6 @@ class _NeedDeliveryState extends State<NeedDelivery> {
                 fontSize: 20,
                 height: size_height * 0.07,
                 onTap: () async{
-                  loadingShow(context);
                   if(validateString(firstName.text,'Please enter first name.', context)==null&&
                       validateString(lastName.text,'Please enter last name.', context)==null&&
                       validateString(city.text,'Please enter city/address.', context)==null&&
@@ -238,6 +238,7 @@ class _NeedDeliveryState extends State<NeedDelivery> {
                       ///--------------------------------------------------
 
                     }
+                    loadingShow(context);
                     var res = await Webservices.postDataWithImageFunction(body:data,files:files,apiUrl:ApiUrls.booking);
                     loadingHide(context);
                     print('booking confirm $res');
@@ -287,7 +288,7 @@ class _NeedDeliveryState extends State<NeedDelivery> {
                 onPressed: () {
                   Cartmanage.clear();
                   // Navigator.popUntil(context, (route) => route.isFirst);
-                  pushAndRemoveUntil(context: context, screen: NewHomePage());
+                  pushAndRemoveUntil(context: context, screen: BottomBar());
                 },
                 child: Text(
                   'Continue',

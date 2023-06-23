@@ -171,39 +171,39 @@ class _NewHomePageState extends State<NewHomePage> {
             return CarouselSlider(
             items: [
               ///1st Image of Slider
-            Container(
-            margin: EdgeInsets.only(bottom: 10),
-          width: size_width,
-          height: size_height / 4.2,
-          decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
-          image: DecorationImage(
-          image: AssetImage(MyImages.home1),
-          fit: BoxFit.cover)),
-          child: Padding(
-          padding: EdgeInsets.only(
-          left: size_width * 0.05, top: 20, bottom: 10),
-          child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-          Text(
-          "We have the\nParts",
-          style: MyStyle.white70026,
-          ),
-          SizedBox(
-          height: size_height * 0.01,
-          ),
-          RoundEdgedButton(
-          text: 'Order Now',
-          fontSize: 10,
-          width: size_width * 0.18,
-          borderRadius: 5,
-          onTap: () {},
-          )
-          ],
-          ),
-          ),
-          ),
+          //   Container(
+          //   margin: EdgeInsets.only(bottom: 10),
+          // width: size_width,
+          // height: size_height / 4.2,
+          // decoration: BoxDecoration(
+          // borderRadius: BorderRadius.circular(10),
+          // image: DecorationImage(
+          // image: AssetImage(MyImages.home1),
+          // fit: BoxFit.cover)),
+          // child: Padding(
+          // padding: EdgeInsets.only(
+          // left: size_width * 0.05, top: 20, bottom: 10),
+          // child: Column(
+          // crossAxisAlignment: CrossAxisAlignment.start,
+          // children: [
+          // Text(
+          // "We have the\nParts",
+          // style: MyStyle.white70026,
+          // ),
+          // SizedBox(
+          // height: size_height * 0.01,
+          // ),
+          // RoundEdgedButton(
+          // text: 'Order Now',
+          // fontSize: 10,
+          // width: size_width * 0.18,
+          // borderRadius: 5,
+          // onTap: () {},
+          // )
+          // ],
+          // ),
+          // ),
+          // ),
 
               ///2nd Image of Slider
               Container(
@@ -236,6 +236,13 @@ class _NewHomePageState extends State<NewHomePage> {
                         onTap: () {
                           showSnackbar('Coming soon....');
                         },
+                      ),
+                      Center(
+                        heightFactor: 2.3,
+                        child: Text(
+                          " В разработке",
+                          style: MyStyle.white70026,
+                        ),
                       )
                     ],
                   ),
